@@ -24,10 +24,6 @@ node('amd64 && docker') {
         sh "docker run --rm -e CGO_ENABLED=1 -e GOARCH=${params.GOARCH} -u \"\$(id -u):\$(id -g)\" -v /etc/passwd:/etc/passwd:ro -v /etc/group:/etc/group:ro -v \"\$PWD\":/usr/src/myapp -w /usr/src/myapp golang:1.10.0 ./build"
     }
 
-    stage('Test') {
-        sh 'docker run --rm -u "$(id -u):$(id -g)" -v /etc/passwd:/etc/passwd:ro -v /etc/group:/etc/group:ro -v "$PWD":/usr/src/myapp -w /usr/src/myapp golang:1.10.0 ./test'
-    }
-
     stage('Post-build') {
         if (env.JOB_BASE_NAME == "master-builder") {
             archiveArtifacts artifacts: 'bin/**', fingerprint: true, onlyIfSuccessful: true
