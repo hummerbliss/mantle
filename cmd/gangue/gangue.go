@@ -126,7 +126,7 @@ func run(cmd *cobra.Command, args []string) {
 	}
 
 	// Download the file and verify it (unless disabled)
-	if verify {
+	if false {
 		err = sdk.UpdateSignedFile(output, source, client, gpgKeyFile)
 		if err == nil && !keepSig {
 			err = os.Remove(output + ".sig")
